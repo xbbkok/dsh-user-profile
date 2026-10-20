@@ -1,7 +1,7 @@
 {
   "name": "dsh-user-profile",
   "version": "1.0.0",
-  "description": "DeepSeek Harness 插件：自定义用户名与头像，显示在侧边栏账号位置。A DSH plugin that gives you an editable local display profile (name + avatar) shown in the sidebar account chip.",
+  "description": "A DeepSeek Harness plugin that gives you an editable local display profile (name + avatar), shown in the sidebar account chip. DSH 插件：自定义用户名与头像。",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -21,7 +21,7 @@
     "lib",
     "cordis.patch.yml",
     "README.md",
-    "README_EN.md",
+    "README.zh.md",
     "CHANGELOG.md",
     "LICENSE"
   ],

@@ -2,11 +2,11 @@
 
 # dsh-user-profile
 
-**给 DeepSeek Harness 一个属于你自己的名字和头像。**
+**Your own name and avatar, inside DeepSeek Harness.**
 
-在 **设置 → 个人资料** 里改用户名、传头像，保存后立刻显示在侧边栏左下角的账号位置。
+Set a username and upload an avatar in **Settings → Profile**; both appear immediately in the sidebar account chip.
 
-*A local display profile for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness): set your own name and avatar, shown in the sidebar account chip.*
+*A local display profile for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness).*
 
 [![Platform](https://img.shields.io/badge/Platform-DeepSeek%20Harness-4D6BFE?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
 [![License: MIT](https://img.shields.io/badge/License-MIT-2d3142.svg?style=flat-square)](./LICENSE)
@@ -14,48 +14,47 @@
 [![DSH](https://img.shields.io/badge/DSH-0.2.x-4d6bfe?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
 [![CI](https://github.com/xbbkok/dsh-user-profile/actions/workflows/ci.yml/badge.svg)](https://github.com/xbbkok/dsh-user-profile/actions/workflows/ci.yml)
 [![GitHub release](https://img.shields.io/github/v/release/xbbkok/dsh-user-profile?style=flat-square)](https://github.com/xbbkok/dsh-user-profile/releases)
-[![GitHub stars](https://img.shields.io/github/stars/xbbkok/dsh-user-profile?style=flat-square)](https://github.com/xbbkok/dsh-user-profile/stargazers)
 
-**中文** · [English](./README_EN.md)
+[中文](./README.zh.md) · **English**
 
 </div>
 
 ---
 
-<img src="./docs/sidebar-chip.png" alt="设置头像和名字后的侧边栏" width="100%" />
+<img src="./docs/sidebar-chip.png" alt="Sidebar chip after setting a custom profile" width="100%" />
 
-## 为什么需要它
+## Why
 
-DSH 左下角的账号区域读的是 **DeepSeek Platform 的登录资料**——只读；没登录时更会退化成一个"更多"按钮。也就是说，这个位置显示的从来不是你愿意让它显示的东西。
+The account area at the bottom-left of DSH renders the **DeepSeek Platform account** — read-only — and degrades to a generic "More" button when nobody is signed in. That spot never shows what *you* want it to show.
 
-**dsh-user-profile** 补上这一块：名字和头像存在本机，覆盖显示在同一个位置。账号菜单（设置 / 意见反馈 / 退出登录）照常工作，只是那张脸换成了你的。
+**dsh-user-profile** fills the gap: a name and avatar stored locally, overlaid on the same control. The account menu (settings / feedback / sign out) keeps working; only the face changes.
 
 | | |
 |---|---|
-| 🪪 **用户名** | 最多 32 字符，中英文都行；留空即回到默认 |
-| 🖼️ **头像** | 上传 PNG / JPG / WebP，自动居中裁方、缩到 192×192 再存；也可一键移除 |
-| 👀 **实时预览** | 改的同时就能看到最终效果，保存后侧边栏立即更新 |
-| 🔄 **可还原** | 点「重置」清空资料，侧边栏原样回到平台账号 |
-| 🌐 **跟随语言** | 中文界面显示「个人资料 / 用户名 / 头像」，英文界面显示 *Profile / Username / Avatar* |
-| 💾 **只存本机** | 不上传、不同步，数据就在你自己的 `~/.dsh` 下 |
+| 🪪 **Username** | Up to 32 characters, any script; leave it empty for the default |
+| 🖼️ **Avatar** | PNG / JPG / WebP, center-cropped and downscaled to 192×192 |
+| 👀 **Live preview** | See the result while editing; the sidebar updates on save |
+| 🔄 **Reversible** | Reset clears the profile and restores the platform identity |
+| 🌐 **Localized** | Follows the DSH language setting (中文 / English) |
+| 💾 **Local only** | Nothing uploaded or synced; it lives under your own `~/.dsh` |
 
-<img src="./docs/profile-page.png" alt="设置 → 个人资料" width="100%" />
+<img src="./docs/profile-page.png" alt="Settings → Profile" width="100%" />
 
-## 安装
+## Install
 
-### 方式一：作为 bundle 安装（推荐）
+### As a bundle (recommended)
 
-包内已声明 `dsh.bundle.patch`，官方 CLI 会顺带把插件行挂进 profile：
+The package declares `dsh.bundle.patch`, so the official CLI also mounts the plugin row:
 
 ```bash
 dsh plugin --profile web add github:xbbkok/dsh-user-profile
 ```
 
-桌面版把 `web` 换成 `desktop`。装完重开一次 DSH 即可看到「设置 → 个人资料」。
+Use `desktop` instead of `web` on the desktop app, then reopen DSH.
 
-### 方式二：从本地路径挂载（开发 / 离线）
+### From a local checkout
 
-在 profile 的 `cordis.patch.yml` 末尾加一行 `insert`（注意加载器用 `import()`，**必须是 `file://` URL**，裸 Windows 路径会静默不加载）：
+Append an `insert` entry to the profile's `cordis.patch.yml`. The loader uses `import()`, so the specifier **must be a `file://` URL** — a bare Windows path fails silently:
 
 ```yaml
 - insert:
@@ -63,23 +62,23 @@ dsh plugin --profile web add github:xbbkok/dsh-user-profile
       name: 'file:///C:/path/to/dsh-user-profile/lib/index.js'
 ```
 
-profile 的 `cordis.patch.yml` 位置：
+Profile patch locations:
 
-| 版本 | 路径 |
+| Build | Path |
 | --- | --- |
-| 桌面版 | `%USERPROFILE%\.dsh\profiles\desktop\cordis.patch.yml` |
-| Web 版 | `%USERPROFILE%\.dsh\profiles\web\cordis.patch.yml` |
+| Desktop | `%USERPROFILE%\.dsh\profiles\desktop\cordis.patch.yml` |
+| Web | `%USERPROFILE%\.dsh\profiles\web\cordis.patch.yml` |
 
-这一行按 `id` 覆盖同名行，所以即使之后又用 bundle 方式安装，也不会重复挂载。
+The row is keyed by id, so a later bundle install overrides the same row instead of mounting a second copy.
 
-## 使用
+## Usage
 
-1. 左下角头像 → **设置**（快捷键 `Ctrl+Alt+,`；英文界面 *Settings*）。
-2. 左侧第一项 **个人资料**（*Profile*）。
-3. 填名字、选头像，点 **保存**。
-4. 想恢复平台账号原样，点 **重置**。
+1. Sidebar account chip → **Settings** (`Ctrl+Alt+,`).
+2. First entry: **Profile**.
+3. Set a name, pick an image, press **Save**.
+4. **Reset** brings the platform identity back.
 
-## 它把数据放在哪
+## Storage
 
 ```
 %USERPROFILE%\.dsh\plugins-data\dsh-user-profile\profile.json
@@ -88,68 +87,68 @@ profile 的 `cordis.patch.yml` 位置：
 ```json
 {
   "version": 1,
-  "name": "示例用户",
+  "name": "Ada",
   "avatar": "data:image/png;base64,…",
-  "updatedAt": "2026-01-01T00:00:00.000Z"
+  "updatedAt": "2026-10-20T02:14:44.183Z"
 }
 ```
 
-同一个目录里的 `heartbeat.txt` 每次宿主插件挂载时重写——"插件到底加载了没有"可以直接查证，不用猜。
+`heartbeat.txt` in the same directory is rewritten on every host mount, so "did it load?" is a fact you can check.
 
-头像存成 **data URL**（PNG，192×192，通常 10–40 KB）。选图时在浏览器里裁剪压缩，**不会**原图落盘。
+The avatar is a 192×192 PNG data URL (usually 10–40 KB), cropped and compressed in the browser — the original file never touches disk.
 
-## 接口
+## API
 
-宿主半边在 DSH 的 Web 服务上注册同一来源的两个方法：
+The host half registers two methods on the DSH web server (same origin as the GUI):
 
-| 方法 | 路径 | 说明 |
+| Method | Path | Notes |
 | --- | --- | --- |
-| `GET` | `/user-profile` | 返回 `{ ok, profile, storagePath }` |
-| `POST` | `/user-profile` | Body `{ name?, avatar? }`（省略的字段保持原值；`avatar: null` 清空） |
+| `GET` | `/user-profile` | `{ ok, profile, storagePath }` |
+| `POST` | `/user-profile` | Body `{ name?, avatar? }`; omitted fields keep their value, `avatar: null` clears it |
 
-写入做了三层约束：名字按 Unicode 码点限制 32 且去掉控制字符；头像只接受 PNG/JPEG/WebP 的 `data:` URL（**拒绝 SVG**——它是可执行标记，不是图片）并限长；带 `Origin` 且与本机 Host 不一致的写请求返回 403，避免被其他网页跨站改写。
+Validation: names are limited to 32 code points with control characters stripped; avatars accept only PNG/JPEG/WebP `data:` URLs (**SVG is rejected** — it is executable markup, not a picture) and a byte cap; writes carrying an `Origin` that does not match the local host get a 403, so another web page cannot rewrite the profile cross-site.
 
-## 实现
+## How it works
 
-一个包、两半，跟 DSH 其他 UI 插件同构：
+One package, two halves, like the other DSH UI plugins:
 
-- **`lib/index.js`（宿主 / Node）** — 注册 `/user-profile`，做校验、原子落盘（临时文件 + rename）、写心跳。只依赖 `node:fs`，没有第三方运行时依赖。
-- **`lib/client.js`（浏览器）** — 通过 `ctx.slots.register({ name: 'settings.section', id: 'profile', order: -30 })` 注册设置页；再把头像和名字覆盖到 `button[data-signed-out]` 这个账号触发器上。
+- **`lib/index.js` (host / Node)** — owns `/user-profile`: validation, atomic write (temp file + rename), heartbeat. No third-party runtime dependencies.
+- **`lib/client.js` (browser)** — registers the settings page through `ctx.slots.register({ name: 'settings.section', id: 'profile', order: -30 })`, then overlays the avatar and name on the account trigger `button[data-signed-out]`.
 
-几个刻意的取舍：
+Deliberate choices:
 
-- **不改别人的组件。** 账号按钮属于 `dsh-client-ui-settings-account`，直接改包既脆弱又会被更新覆盖。这里只做 DOM 装饰：记住原生子节点的 `display` 后隐藏，插入自己的头像和名字；清空资料时原样还原。`MutationObserver` 负责在 React 重渲染后补回来，写入幂等——不会因为自己的改动把观察器喂成死循环（单测里专门验了）。
-- **失败不外溢。** 拿不到 `webServer`、目录不可写、路由注册抛错，都只写一条 warn；插件加载失败不会把整棵插件树带崩。
-- **语言跟随应用。** 字典用 `ctx.locale.register('user-profile', { zh, en })` 注册，`ctx.locale.bind()` 取值，跟随 DSH 自己的语言设置。
-- **零构建。** `lib/*.js` 就是可读的 ESM 源码，`window.__ModuleLoader__.load()` 的工厂格式由客户端模块系统直接消费，没有 bundler、没有 `postinstall`。
+- **No forking of someone else's component.** The account button belongs to `dsh-client-ui-settings-account`; editing that package would be fragile and would be overwritten by updates. The bundle decorates the DOM instead: it records each native child's `display`, hides it, inserts its own avatar and label, and restores everything when the profile is cleared. A `MutationObserver` re-applies after React re-renders, and every write is idempotent so the observer cannot feed itself (covered by a test).
+- **Failures stay inside.** A missing web server, an unwritable directory or a failing route registration produce a warning, never a broken plugin tree.
+- **Language follows the app.** Dictionaries go through `ctx.locale.register('user-profile', { zh, en })` and are read through `ctx.locale.bind()`, so the page honours DSH's own language setting.
+- **No build step.** `lib/*.js` is readable ESM; the `window.__ModuleLoader__.load()` factory shape is consumed directly by the client module system — no bundler, no `postinstall`.
 
-## 兼容性
+## Compatibility
 
-- DSH **0.2.x**（`@deepseek-ai/dsh >= 0.1.2-rc.1`）。
-- 桌面版与 Web 版都适用；依赖的槽位 `settings.section` 与账号按钮的 `data-signed-out` 属性自 0.1.x 起未变。
-- 只在**侧边栏**和**设置页**做展示覆盖，不碰登录态、计费、模型调用。
+- DSH **0.2.x** (`@deepseek-ai/dsh >= 0.1.2-rc.1`), desktop and web builds.
+- Uses the `settings.section` slot and the `data-signed-out` attribute of the account trigger; both are stable since 0.1.x.
+- Display only: sign-in, billing and model calls are untouched.
 
-## 已知限制
+## Known limitations
 
-- 改的是**显示资料**，不是 DeepSeek Platform 上的真实账号资料。
-- 资料按机器保存，不跨设备同步。
-- 若将来 DSH 改掉 `button[data-signed-out]` 这个属性，侧边栏覆盖会静默失效（设置页里的功能不受影响）。
-- 侧边栏覆盖是对别人组件的 DOM 装饰，不是官方插槽；能做的防御都做了，但它本质上是"贴上去"的。
+- It changes the **displayed** profile, not the DeepSeek Platform account.
+- The profile is per machine; it does not sync across devices.
+- If a future DSH build renames `button[data-signed-out]`, the sidebar overlay silently stops applying (the settings page keeps working).
+- The sidebar overlay is DOM decoration on a component owned by another package, not an official slot.
 
-## 开发与测试
+## Development
 
 ```bash
-npm install   # 只装 jsdom，用于无浏览器环境跑客户端半边
+npm install   # jsdom only, for running the browser half without a GUI
 npm test
 ```
 
-19 项检查：宿主校验、原子落盘、HTTP 处理器（GET / POST / 非法 JSON / 超长名 / SVG 伪装 / 跨站写入 / 错误方法）、客户端产物可加载、槽注册与中文标签、账号按钮的覆盖与还原、折叠态、观察器收敛。
+19 checks: host validation, atomic persistence, the HTTP handler (GET / POST / malformed JSON / over-long name / SVG disguise / cross-origin write / wrong method), bundle loading, slot registration with a localized label, chip overlay and exact restoration, collapsed rail, observer settling.
 
-改 `lib/client.js` 后页面会热换；改 `lib/index.js`（宿主半边）需要重启 DSH 才会重新 import。
+Editing `lib/client.js` hot-swaps in the page; editing `lib/index.js` needs a DSH restart to re-import.
 
-## 卸载
+## Uninstall
 
-删掉 profile `cordis.patch.yml` 里那行 `dsh-user-profile`（或从 `dsh.profile.bundles` 移除），再删 `%USERPROFILE%\.dsh\plugins-data\dsh-user-profile\`，刷新页面即可。
+Remove the `dsh-user-profile` row from the profile's `cordis.patch.yml` (or drop it from `dsh.profile.bundles`), delete `%USERPROFILE%\.dsh\plugins-data\dsh-user-profile\`, and refresh.
 
 ## License
 
