@@ -1,0 +1,25 @@
+# dsh-user-profile — bundle patch
+#
+# This file is the `dsh.bundle.patch` layer of the published package. Installing
+# through the official CLI:
+#
+#   dsh plugin --profile <name> add dsh-user-profile
+#
+# makes `dsh` append `dsh-user-profile` to the profile's `dsh.profile.bundles`
+# and merge THIS patch: one `insert` of the plugin row. No profile file edits
+# needed — one command installs and mounts.
+#
+# Manual mount (development, or a checkout): point the same row id at the
+# package entry instead. The profile patch layer is applied after the bundle
+# layers and wins per row id, so it overrides this insert rather than adding a
+# second one:
+#
+#   - insert:
+#       - id: dsh-user-profile
+#         name: 'file:///C:/path/to/dsh-user-profile/lib/index.js'
+#
+# Do not mount the package twice under two different ids: the host half owns the
+# `/user-profile` route and a second instance would collide on it.
+- insert:
+    - id: dsh-user-profile
+      name: 'dsh-user-profile'

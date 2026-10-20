@@ -1,0 +1,65 @@
+{
+  "name": "dsh-user-profile",
+  "version": "1.0.0",
+  "description": "DeepSeek Harness 插件：自定义用户名与头像，显示在侧边栏账号位置。A DSH plugin that gives you an editable local display profile (name + avatar) shown in the sidebar account chip.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "README_EN.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node test/run-tests.mjs"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek",
+    "cordis",
+    "profile",
+    "avatar",
+    "username",
+    "display-name",
+    "web-ui"
+  ],
+  "license": "MIT",
+  "author": "xbbkok",
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xbbkok/dsh-user-profile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xbbkok/dsh-user-profile/issues"
+  },
+  "homepage": "https://github.com/xbbkok/dsh-user-profile#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh": ">=0.1.2-rc.1"
+  },
+  "devDependencies": {
+    "jsdom": "^27.0.0"
+  }
+}
